@@ -4,6 +4,7 @@ orbs:
 jobs:
   initial:
     executor: gcp-cli/default
+    resource_class: small
     steps:
       - checkout
       - gcp-cli/install
