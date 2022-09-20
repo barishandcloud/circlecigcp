@@ -2,15 +2,12 @@ version: 2.1
 orbs:
   gcp-cli: circleci/gcp-cli@2.4.0
 jobs:
-  build:
-    docker:
-      - image: cimg/node:17.5.0
+  test:
+    executor: gcp-cli/default
     steps:
       - checkout
-      - gcp-cli/install
       - gcp-cli/initialize
 workflows:
-  version: 2.1
   testcci:
     jobs:
-      - build
+      - test
