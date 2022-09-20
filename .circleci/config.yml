@@ -2,13 +2,18 @@ version: 2.1
 orbs:
   gcp-cli: circleci/gcp-cli@2.4.0
 jobs:
-  test:
+  initial:
     executor: gcp-cli/default
     steps:
       - checkout
       - gcp-cli/install
       - gcp-cli/initialize
+      - run:
+          name: Listing of projects
+          command: |
+            gcloud projects list
+
 workflows:
   testcci:
     jobs:
-      - test
+      - initial
