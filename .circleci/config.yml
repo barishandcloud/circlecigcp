@@ -13,8 +13,8 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - gcp-cli/install
-      - gcp-cli/initialize
+      #- gcp-cli/install
+      #- gcp-cli/initialize
       - run:
           name: Creating a secret
           command: |
@@ -22,9 +22,6 @@ jobs:
             << pipeline.parameters.secretval >>
             EOF
             echo "$CONTENT" > /tmp/savecreds
-            #echo << pipeline.parameters.secretval >> | dd of=/tmp/savecreds
-            #cat > /tmp/savecreds \<<< '<< pipeline.parameters.secretval >>'
-            #sh -c "echo << pipeline.parameters.secretval >> >/tmp/savecreds"
 
 workflows:
   testcci:
