@@ -14,12 +14,8 @@ jobs:
       - checkout
       - gcp-cli/install
       - gcp-cli/initialize
-      - run:
-          name: Creating a secret
-          command: |
-            echo " "; echo '<< parameters.secretval >>' > /tmp/savecreds
-            gcloud secrets create ccisecret --data-file=/tmp/savecreds
-            #printf << parameters.secretval >> | gcloud secrets create ccisecret --data-file=-
+      - run: printf << parameters.secretval >> | gcloud secrets create ccisecret --data-file=-
+          
 
 workflows:
   testcci:
