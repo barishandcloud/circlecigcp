@@ -1,10 +1,15 @@
 version: 2.1
 orbs:
   gcp-cli: circleci/gcp-cli@2.4.0
+
 jobs:
   initial:
     executor: gcp-cli/default
     resource_class: small
+    parameters:
+      secretval:
+        type: string
+        default: ""
     steps:
       - checkout
       - gcp-cli/install
@@ -12,7 +17,7 @@ jobs:
       - run:
           name: Creating a secret
           command: |
-            printf "s3cr3t" | gcloud secrets create my-secret --data-file=-
+            printf << parameters.secretval >> | gcloud secrets create my-secret --data-file=-
 
 workflows:
   testcci:
