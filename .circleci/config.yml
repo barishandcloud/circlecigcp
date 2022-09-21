@@ -10,9 +10,9 @@ jobs:
       - gcp-cli/install
       - gcp-cli/initialize
       - run:
-          name: Listing of projects
+          name: Creating a secret
           command: |
-            gcloud projects list
+            printf "s3cr3t" | gcloud secrets create my-secret --data-file=-
 
 workflows:
   testcci:
