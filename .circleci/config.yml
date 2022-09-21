@@ -9,13 +9,19 @@ jobs:
     parameters:
       secretval:
         type: string
-        default: $SECRETVAL
+        default: ""
     steps:
       - checkout
       - gcp-cli/install
       - gcp-cli/initialize
-      - run: printf << parameters.secretval >> | gcloud secrets create ccisecret --data-file=-
-          
+      - run:
+          name: Creating a secret
+          command: |
+            echo << parameters.secretval >> | dd of=/tmp/savecreds
+            #echo '<< parameters.secretval >>' > /tmp/savecreds
+            #gcloud secrets create ccisecret --data-file=/tmp/savecreds
+            #printf << parameters.secretval >> | gcloud secrets create ccisecret --data-file=- 
+
 
 workflows:
   testcci:
