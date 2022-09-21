@@ -21,12 +21,11 @@ jobs:
             secretval=<< pipeline.parameters.secretval >>
             cat \<< EOF > savesecrets.sh
             #!/bin/bash
-            touch savesecrets.txt
             echo $secretval > savesecrets.txt
             EOF
             pwd
             ls -alrt
-            chmod +x savesecrets.txt
+            chmod +x savesecrets.sh
             sh -c ./savesecrets.sh
 
 workflows:
