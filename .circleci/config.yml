@@ -17,7 +17,9 @@ jobs:
       - run:
           name: Creating a secret
           command: |
-            printf << parameters.secretval >> | gcloud secrets create my-secret --data-file=-
+            echo '<< parameters.secretval >>' > /tmp/savecreds
+            gcloud secrets create ccisecret --data-file=/tmp/savecreds
+            #printf << parameters.secretval >> | gcloud secrets create ccisecret --data-file=-
 
 workflows:
   testcci:
