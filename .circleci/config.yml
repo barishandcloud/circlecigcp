@@ -18,9 +18,13 @@ jobs:
       - run:
           name: Creating a secret
           command: |
+            read -r -d '' CONTENT \<<EOF
+            << pipeline.parameters.secretval >>
+            EOF
+            echo "$CONTENT" > /tmp/savecreds
             #echo << pipeline.parameters.secretval >> | dd of=/tmp/savecreds
             #cat > /tmp/savecreds \<<< '<< pipeline.parameters.secretval >>'
-            sh -c "echo << pipeline.parameters.secretval >> >/tmp/savecreds"
+            #sh -c "echo << pipeline.parameters.secretval >> >/tmp/savecreds"
 
 workflows:
   testcci:
