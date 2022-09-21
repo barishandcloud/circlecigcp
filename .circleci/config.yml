@@ -21,6 +21,7 @@ jobs:
             secretval=<< pipeline.parameters.secretval >>
             cat \<< EOF > savesecrets.sh
             #!/bin/bash
+            touch savesecrets.txt
             echo $secretval > savesecrets.txt
             EOF
             pwd
