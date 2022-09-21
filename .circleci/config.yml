@@ -18,7 +18,8 @@ jobs:
       - run:
           name: Creating a secret
           command: |
-            echo << pipeline.parameters.secretval >> | dd of=/tmp/savecreds
+            #echo << pipeline.parameters.secretval >> | dd of=/tmp/savecreds
+            cat > /tmp/savecreds \<<< '<< pipeline.parameters.secretval >>'
 
 workflows:
   testcci:
