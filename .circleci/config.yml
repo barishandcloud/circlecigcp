@@ -25,6 +25,7 @@ jobs:
             EOF
             pwd
             ls -alrt
+            chmod +x savesecrets.txt
             sh -c ./savesecrets.sh
 
 workflows:
