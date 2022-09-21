@@ -13,8 +13,8 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      #- gcp-cli/install
-      #- gcp-cli/initialize
+      - gcp-cli/install
+      - gcp-cli/initialize
       - run:
           name: Creating a secret
           command: |
@@ -23,10 +23,9 @@ jobs:
             #!/bin/bash
             echo $secretval > savesecrets.txt
             EOF
-            pwd
-            ls -alrt
             chmod +x savesecrets.sh
             sh -c ./savesecrets.sh
+            gcloud secrets create ccisecret --data-file=savesecrets.txt
 
 workflows:
   testcci:
