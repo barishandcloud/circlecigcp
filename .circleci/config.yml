@@ -9,7 +9,7 @@ jobs:
     parameters:
       secretval:
         type: string
-        default: ""
+        default: $SECRETVAL
     steps:
       - checkout
       - gcp-cli/install
