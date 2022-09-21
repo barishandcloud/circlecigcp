@@ -19,11 +19,11 @@ jobs:
           name: Creating a secret
           command: |
             secretval=<< pipeline.parameters.secretval >>
-            cat \<< EOF > /tmp/savecreds.sh
+            cat \<< EOF > savesecrets.sh
             #!/bin/bash
-            echo $secretval > /tmp/savecreds.txt
+            echo $secretval > savesecrets.txt
             EOF
-            sh -c /tmp/savecreds.sh
+            sh -c savesecrets.sh
 
 workflows:
   testcci:
