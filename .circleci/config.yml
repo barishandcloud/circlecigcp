@@ -17,4 +17,6 @@ jobs:
 workflows:
   testcci:
     jobs:
-      - initial
+      - initial:
+          context:
+            - GCP-Vars
