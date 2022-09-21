@@ -23,6 +23,8 @@ jobs:
             #!/bin/bash
             echo $secretval > savesecrets.txt
             EOF
+            pwd
+            ls -alrt
             sh -c savesecrets.sh
 
 workflows:
