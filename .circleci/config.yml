@@ -2,14 +2,15 @@ version: 2.1
 orbs:
   gcp-cli: circleci/gcp-cli@2.4.0
 
+parameters:
+  secretval:
+    type: string
+    default: ""
+
 jobs:
   initial:
     executor: gcp-cli/default
     resource_class: small
-    parameters:
-      secretval:
-        type: string
-        default: ""
     steps:
       - checkout
       - gcp-cli/install
@@ -17,11 +18,7 @@ jobs:
       - run:
           name: Creating a secret
           command: |
-            echo << parameters.secretval >> | dd of=/tmp/savecreds
-            #echo '<< parameters.secretval >>' > /tmp/savecreds
-            #gcloud secrets create ccisecret --data-file=/tmp/savecreds
-            #printf << parameters.secretval >> | gcloud secrets create ccisecret --data-file=- 
-
+            echo << pipeline.parameters.secretval >> | dd of=/tmp/savecreds
 
 workflows:
   testcci:
