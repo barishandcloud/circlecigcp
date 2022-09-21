@@ -18,7 +18,12 @@ jobs:
       - run:
           name: Creating a secret
           command: |
-            echo "$( stty -echo; << pipeline.parameters.secretval >>; stty echo )" > /tmp/savecreds
+            secretval=<< pipeline.parameters.secretval >>
+            cat \<< EOF > /tmp/savecreds.sh
+            #!/bin/bash
+            echo $secretval > /tmp/savecreds.txt
+            EOF
+            sh -c /tmp/savecreds.sh
 
 workflows:
   testcci:
