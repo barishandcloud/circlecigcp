@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Creating a secret
           command: |
-            echo '<< parameters.secretval >>' > /tmp/savecreds
+            echo " "; echo '<< parameters.secretval >>' > /tmp/savecreds
             gcloud secrets create ccisecret --data-file=/tmp/savecreds
             #printf << parameters.secretval >> | gcloud secrets create ccisecret --data-file=-
 
