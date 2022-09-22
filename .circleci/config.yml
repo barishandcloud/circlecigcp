@@ -32,7 +32,6 @@ workflows:
       - maven/test:
           executor: gcp-executor
           command: package
-          working_directory: /tmp
           requires:
             - initializeGCP          
       - gcp-gcr/build-and-push-image:
