@@ -24,8 +24,12 @@ workflows:
       - initializeGCP:
           context: GCP-Vars
       - maven/test:
-          command: package
+          command: -N io.takari:maven:wrapper -Dmaven=3.5.3
+          requires:
+            - initializeGCP          
       - gcp-gcr/build-and-push-image:
           context: GCP-Vars
           image: my-image
           registry-url: ap.gcr.io
+          requires:
+            - maven/test           
