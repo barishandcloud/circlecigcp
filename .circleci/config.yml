@@ -14,6 +14,7 @@ executors:
 jobs:
   initializeGCP:
     executor: gcp-executor
+    resource_class: medium
     steps:
       - checkout
       - run:
