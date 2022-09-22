@@ -19,9 +19,9 @@ jobs:
       - run:
           name: Creating a secret
           command: |
-            echo $CLOUDSDK_PYTHON
-      #- gcp-cli/install
-      #- gcp-cli/initialize
+            export CLOUDSDK_PYTHON="/opt/circleci/.pyenv/versions/3.10.5/bin/python3"
+      - gcp-cli/install
+      - gcp-cli/initialize
 
 workflows:
   testcci:
