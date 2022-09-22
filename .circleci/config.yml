@@ -9,18 +9,17 @@ executors:
     machine:
       image: ubuntu-2004:current
       docker_layer_caching: true
-    #working_directory: /tmp
 
-parameters:
-  secretval:
-    type: string
-    default: ""
 
 jobs:
   initializeGCP:
     executor: gcp-executor
     steps:
       - checkout
+      - run:
+          name: Creating a secret
+          command: |
+            python --version
       - gcp-cli/install
       - gcp-cli/initialize
 
@@ -29,15 +28,4 @@ workflows:
     jobs:
       - initializeGCP:
           context: GCP-Vars
-      - maven/test:
-          executor: gcp-executor
-          command: package
-          requires:
-            - initializeGCP          
-      - gcp-gcr/build-and-push-image:
-          executor: gcp-executor
-          context: GCP-Vars
-          image: my-image
-          registry-url: ap.gcr.io
-          requires:
-            - maven/test           
+     
