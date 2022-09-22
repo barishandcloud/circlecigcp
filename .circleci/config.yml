@@ -19,9 +19,7 @@ jobs:
       - run:
           name: Set variable 
           command: |
-            echo 'export CLOUDSDK_PYTHON="/opt/circleci/.pyenv/versions/3.10.5/bin/python3"' >> "$BASH_ENV"
-            whereis python
-            whereis python3
+            echo 'export CLOUDSDK_PYTHON="/usr/bin/python3"' >> "$BASH_ENV"
       - run:
           name: Check Variable
           command: |
