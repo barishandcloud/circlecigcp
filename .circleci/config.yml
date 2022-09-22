@@ -6,7 +6,6 @@ orbs:
 
 executors:
   gcp-executor:
-    resource_class: medium
     working_directory: ~/testdir
     machine:
       - image: ubuntu-2004:current
