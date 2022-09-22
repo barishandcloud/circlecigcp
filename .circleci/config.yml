@@ -24,6 +24,7 @@ workflows:
       - initializeGCP:
           context: GCP-Vars
       - maven/test:
+          command: package
           requires:
             - initializeGCP          
       - gcp-gcr/build-and-push-image:
