@@ -23,7 +23,8 @@ workflows:
     jobs:
       - initializeGCP:
           context: GCP-Vars
-      - maven/test
+      - maven/test:
+          command: package
       - gcp-gcr/build-and-push-image:
           context: GCP-Vars
           image: my-image
