@@ -8,7 +8,7 @@ executors:
   gcp-executor:
     machine:
       - image: ubuntu-2004:current
-        resource_class: medium
+    resource_class: medium
     #working_directory: /tmp
 
 parameters:
