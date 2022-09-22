@@ -20,6 +20,7 @@ jobs:
           name: Creating a secret
           command: |
             pyenv versions
+            pyenv global 3.10.5
       - gcp-cli/install
       - gcp-cli/initialize
 
