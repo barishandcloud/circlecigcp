@@ -11,7 +11,7 @@ parameters:
 
 jobs:
   initializeGCP:
-    executor: gcp-cli/default
+    #executor: gcp-cli/default
     resource_class: small
     steps:
       - checkout
@@ -24,6 +24,7 @@ workflows:
       - initializeGCP:
           context: GCP-Vars
       - maven/test:
+          resource_class: small
           command: package
           requires:
             - initializeGCP          
