@@ -15,21 +15,13 @@ jobs:
       - checkout
       - gcp-cli/install
       - gcp-cli/initialize
-      - run:
-          name: Creating a secret
-          command: |
-            secretval=<< pipeline.parameters.secretval >>
-            cat \<< EOF > savesecrets.sh
-            #!/bin/bash
-            echo $secretval > savesecrets.txt
-            EOF
-            chmod +x savesecrets.sh
-            sh -c ./savesecrets.sh
-            gcloud secrets create ccisecret --data-file=savesecrets.txt
 
 workflows:
   testcci:
     jobs:
       - initial:
-          context:
-            - GCP-Vars
+          context: GCP-Vars
+      - gcp-gcr/build-and-push-image:
+          context: GCP-Vars
+          image: my-image
+          registry-url: ap.gcr.io
