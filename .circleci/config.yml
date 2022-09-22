@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Creating a secret
           command: |
-            python3 --version
+            pyenv versions
       - gcp-cli/install
       - gcp-cli/initialize
 
