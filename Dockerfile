@@ -1,18 +1,10 @@
-FROM openjdk:8-jdk-alpine as build
-WORKDIR /workspace/app
+# Start with a base image containing Java runtime
+FROM java:8
 
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-COPY src src
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
 
-RUN ./mvnw package
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+ADD target/spring-boot-docker-maven.jar spring-boot-docker-maven.jar
 
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-ARG DEPENDENCY=/workspace/app/target/dependency
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.demo.bankapp.BankApplication"]
+# Run the jar file 
+ENTRYPOINT ["java","-jar","spring-boot-docker-maven.jar"]
