@@ -20,6 +20,7 @@ jobs:
           name: Set variable 
           command: |
             echo 'export CLOUDSDK_PYTHON="/usr/bin/python3"' >> "$BASH_ENV"
+            gcloud version
       - run:
           name: Check Variable
           command: |
