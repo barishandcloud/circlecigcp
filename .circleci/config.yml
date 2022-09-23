@@ -15,14 +15,14 @@ workflows:
     jobs:
       - initializeGCP:
 	      e: poc-exec
-          context: GCP-Vars
+        context: GCP-Vars
 
 jobs:
   initializeGCP:
     parameters:
-	  e:
-	    type: executor
-	executor: << parameters.e >>
+      e:
+        type: executor
+  executor: << parameters.e >>
     steps:
       - checkout
       - gcp-cli/install
