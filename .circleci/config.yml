@@ -1,13 +1,14 @@
 version: 2.1
+
 orbs:
   gcp-cli: circleci/gcp-cli@2.4.0
   gcp-gcr: circleci/gcp-gcr@0.15.0
   maven: circleci/maven@1.3.0
 
 executors:
-  self-executor:
-    machine: true
-    resource_class: barishandcloud/selfresource
+  poc-exec:
+    docker:
+      - image: cimg/python:3.10.7-node
 
 workflows:
   testcci:
@@ -17,7 +18,8 @@ workflows:
 
 jobs:
   initializeGCP:
-    executor: self-executor
+    executor: poc-executor
     steps:
       - checkout
-      - run: echo "Hi I'm on Runners!"
+      - gcp-cli/install
+      - gcp-cli/initialize
