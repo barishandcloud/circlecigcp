@@ -14,11 +14,15 @@ workflows:
   testcci:
     jobs:
       - initializeGCP:
+	      e: poc-exec
           context: GCP-Vars
 
 jobs:
   initializeGCP:
-    executor: poc-executor
+    parameters:
+	  e:
+	    type: executor
+	executor: << parameters.e >>
     steps:
       - checkout
       - gcp-cli/install
