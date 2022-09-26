@@ -10,12 +10,8 @@ jobs:
       - gcp-gcr/build-image:
           image: testimg
       - gcp-gcr/push-image:
-          digest-path: /tmp/digest.txt
           image: testimg
           registry-url: ap.gcr.io
-      - run:
-          command: |
-            echo "Digest is: $(</tmp/digest.txt)"
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.15.0
 version: 2.1
