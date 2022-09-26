@@ -10,10 +10,10 @@ executors:
 
 jobs:
   mvn:
+    executor: machexec
     steps:
       - checkout
-      - maven/test:
-          executor: machexec
+      - maven/test:          
           command: package
   build-and-push:
     executor: machexec
