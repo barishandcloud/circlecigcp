@@ -1,25 +1,28 @@
-version: 2.1
-orbs:
-  gcp-gcr: circleci/gcp-gcr@0.15.0
-  maven: circleci/maven@1.3.0
-
 executors:
   machexec:
     machine:
       image: ubuntu-2204:2022.07.1
-
 jobs:
   build-and-push:
     executor: machexec
     steps:
-      - gcp-gcr/build-and-push-image:         
-          image: test-image
+      - checkout
+      - gcp-gcr/gcr-auth
+      - gcp-gcr/build-image:
+          image: orb-test
+          no_output_timeout: 20m
           registry-url: ap.gcr.io
-
+      - gcp-gcr/push-image:
+          digest-path: /tmp/digest.txt
+          image: orb-test
+          registry-url: ap.gcr.io
+      - run:
+          command: |
+            echo "Digest is: $(</tmp/digest.txt)"
+orbs:
+  gcp-gcr: circleci/gcp-gcr@0.15.0
+version: 2.1
 workflows:
-  testcci:
+  commit:
     jobs:
-      - build-and-push:
-          context: GCP-Vars
-          requires:
-            - maven_test       
+      - build-and-push
