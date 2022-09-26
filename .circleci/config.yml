@@ -28,8 +28,7 @@ jobs:
           image: testimg
           registry-url: ap.gcr.io
       - run: docker image ls
-      - gcp-gcr/push-image:
-          image: testimg
-          registry-url: ap.gcr.io
+      - run: docker push ap.gcr.io/$GOOGLE_PROJECT_ID/testimg:latest >> out.txt
+      - run: cat out.txt
 
 
