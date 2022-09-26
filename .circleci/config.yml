@@ -8,24 +8,28 @@ executors:
     machine:
       image: ubuntu-2204:2022.07.1
       docker_layer_caching: true
-    working_directory: /tmp
+
+jobs:
+  mvn:
+    steps:
+      - checkout
+      - maven/test:
+          command: package
+  build-and-push:
+    steps:
+      - checkout
+      - gcp-gcr/build-and-push-image:          
+          image: test-image
+          registry-url: ap.gcr.io
 
 workflows:
   testcci:
     jobs:
-      - maven/test:
+      - mvn:
           executor: gcp-executor
           command: package
-          persist_to_workspace:
-            root: workspace
-            paths:
-             - spring-boot-docker-maven.jar
-      - gcp-gcr/build-and-push-image:
+      - build-and-push:
           executor: gcp-executor
           context: GCP-Vars
-          image: my-image
-          registry-url: ap.gcr.io
-          attach_workspace:
-            at: /tmp/workspace
           requires:
-            - maven/test           
+            - mvn       
