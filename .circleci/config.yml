@@ -7,7 +7,7 @@ jobs:
     executor: machexec
     steps:
       - checkout
-      - gcp-gcr/gcr-auth:          
+      - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           image: testimg
           tag: latest
