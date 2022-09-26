@@ -12,8 +12,6 @@ workflows:
   testmvncgcp:
     jobs:
       - build-and-push:
-          requires:
-            - maven/test
           context: 
             - GCP-Vars
 
@@ -23,6 +21,7 @@ jobs:
     steps:
       - checkout
       - run: apt install maven
+      - run: ls -al
       - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           image: testimg
