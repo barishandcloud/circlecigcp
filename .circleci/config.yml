@@ -9,16 +9,14 @@ executors:
       image: ubuntu-2204:2022.07.1
 
 jobs:
-  mvncommands:
+  maven_test:
     executor: machexec
     steps:
-      - checkout
       - maven/test:          
           command: package
   build-and-push:
     executor: machexec
     steps:
-      - checkout
       - gcp-gcr/build-and-push-image:         
           image: test-image
           registry-url: ap.gcr.io
@@ -26,8 +24,8 @@ jobs:
 workflows:
   testcci:
     jobs:
-      - mvncommands
+      - maven_test
       - build-and-push:
           context: GCP-Vars
           requires:
-            - mvncommands       
+            - maven_test       
