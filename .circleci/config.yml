@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.15.0
-  maven: circleci/maven@1.3.0
 
 executors:
   machexec:
@@ -12,8 +11,6 @@ executors:
 workflows:
   testmvncgcp:
     jobs:
-      - maven/test:
-          command: 'package'    
       - build-and-push:
           requires:
             - maven/test
@@ -25,6 +22,7 @@ jobs:
     executor: machexec
     steps:
       - checkout
+      - run: apt install maven
       - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           image: testimg
