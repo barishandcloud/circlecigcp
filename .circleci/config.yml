@@ -26,6 +26,7 @@ jobs:
       - gcp-gcr/build-image:
           image: testimg
           tag: latest
+          registry-url: ap.gcr.io
       - gcp-gcr/push-image:
           image: testimg
           tag: latest
