@@ -20,8 +20,8 @@ jobs:
     executor: machexec
     steps:
       - checkout
-      - run: apt install maven
-      - run: ls -al
+      - run: sudo apt install maven
+      - run: pwd; ls -al
       - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           image: testimg
