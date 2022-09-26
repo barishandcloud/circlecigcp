@@ -5,11 +5,12 @@ orbs:
 
 executors:
   machexec:
+    resource_class: medium
     machine:
       image: ubuntu-2204:2022.07.1
 
 workflows:
-  commit:
+  testmvncgcp:
     jobs:
       - mvnpackage
       - build-and-push:
