@@ -22,7 +22,7 @@ jobs:
       - checkout
       - run: sudo apt install maven
       - run: mvn package
-      - gcp-gcr/gcr-auth
+      - gcp-gcr/gcr-auth:
           registry-url: ap.gcr.io
       - gcp-gcr/build-image:
           image: testimg
