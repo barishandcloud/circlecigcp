@@ -25,11 +25,10 @@ jobs:
       - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           image: testimg
-          tag: latest
           registry-url: ap.gcr.io
+      - run: docker image ls
       - gcp-gcr/push-image:
           image: testimg
-          tag: latest
           registry-url: ap.gcr.io
 
 
