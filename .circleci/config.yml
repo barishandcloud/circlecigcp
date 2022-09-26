@@ -8,10 +8,7 @@ jobs:
     steps:
       - checkout
       - gcp-gcr/gcr-auth
-      - gcp-gcr/build-image:
-          image: testimg
-          tag: latest
-      - gcp-gcr/push-image:
+      - gcp-gcr/build-and-push-image:
           image: testimg
           tag: latest
           registry-url: ap.gcr.io
