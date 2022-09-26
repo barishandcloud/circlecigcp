@@ -9,8 +9,10 @@ jobs:
       - checkout
       - gcp-gcr/build-image:
           image: testimg
+          tag: latest
       - gcp-gcr/push-image:
           image: testimg
+          tag: latest
           registry-url: ap.gcr.io
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.15.0
