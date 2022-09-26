@@ -24,7 +24,7 @@ jobs:
 workflows:
   testcci:
     jobs:
-      - maven_test
+      - maven_test:
       - build-and-push:
           context: GCP-Vars
           requires:
