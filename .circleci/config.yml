@@ -9,18 +9,9 @@ executors:
       image: ubuntu-2204:2022.07.1
 
 jobs:
-  maven_test:
-    executor: machexec
-    steps:
-      - maven/test:          
-          command: package
-      - save_cache:
-          key: jar-cache
   build-and-push:
     executor: machexec
     steps:
-      - restore_cache:
-          keys: jar-cache
       - gcp-gcr/build-and-push-image:         
           image: test-image
           registry-url: ap.gcr.io
@@ -28,7 +19,6 @@ jobs:
 workflows:
   testcci:
     jobs:
-      - maven_test
       - build-and-push:
           context: GCP-Vars
           requires:
