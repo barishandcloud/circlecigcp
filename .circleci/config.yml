@@ -9,7 +9,7 @@ executors:
       image: ubuntu-2204:2022.07.1
 
 jobs:
-  mvn:
+  mvncommands:
     executor: machexec
     steps:
       - checkout
@@ -26,8 +26,8 @@ jobs:
 workflows:
   testcci:
     jobs:
-      - mvn
+      - mvncommands
       - build-and-push:
           context: GCP-Vars
           requires:
-            - mvn       
+            - mvncommands       
