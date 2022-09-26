@@ -7,7 +7,6 @@ jobs:
     executor: machexec
     steps:
       - checkout
-      - gcp-gcr/gcr-auth
       - gcp-gcr/build-image:
           image: orb-test
           no_output_timeout: 20m
