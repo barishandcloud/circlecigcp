@@ -18,17 +18,16 @@ jobs:
   build-and-push:
     steps:
       - checkout
-      - gcp-gcr/build-and-push-image:
-          executor: machexec          
+      - gcp-gcr/build-and-push-image:         
           image: test-image
           registry-url: ap.gcr.io
 
 workflows:
   testcci:
     jobs:
-      - mvn:          
-          command: package
-      - build-and-push:          
+      - mvn:
+      - build-and-push:
+          executor: machexec       
           context: GCP-Vars
           requires:
             - mvn       
