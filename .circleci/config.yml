@@ -26,7 +26,7 @@ jobs:
 workflows:
   testcci:
     jobs:
-      - mvn:       
+      - mvn
       - build-and-push:
           context: GCP-Vars
           requires:
