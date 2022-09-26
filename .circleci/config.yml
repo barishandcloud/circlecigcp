@@ -23,12 +23,12 @@ jobs:
       - run: sudo apt install maven
       - run: mvn package
       - gcp-gcr/gcr-auth:
-          registry-url: ap.gcr.io
+          registry-url: asia.gcr.io
       - gcp-gcr/build-image:
           image: testimg
-          registry-url: ap.gcr.io
-      - run: docker image ls
-      - run: docker push ap.gcr.io/$GOOGLE_PROJECT_ID/testimg:latest >> out.txt
-      - run: cat out.txt
+          registry-url: asia.gcr.io
+      - gcp-gcr/push-image:
+          image: testimg
+          registry-url: asia.gcr.io
 
 
