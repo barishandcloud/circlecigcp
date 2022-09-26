@@ -14,7 +14,7 @@ workflows:
   testcci:
     jobs:
       - initializeGCP:
-	      e: poc-exec
+        e: poc-exec
         context: GCP-Vars
 
 jobs:
