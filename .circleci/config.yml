@@ -13,7 +13,6 @@ jobs:
     steps:
       - checkout
       - maven/test:
-          executor: machexec
           command: package
   build-and-push:
     steps:
@@ -26,8 +25,13 @@ workflows:
   testcci:
     jobs:
       - mvn:
+          executor:
+            machine:
+              image: ubuntu-2204:2022.07.1         
       - build-and-push:
-          executor: machexec       
+          executor:
+            machine:
+              image: ubuntu-2204:2022.07.1 
           context: GCP-Vars
           requires:
             - mvn       
