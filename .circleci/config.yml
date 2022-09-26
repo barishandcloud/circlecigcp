@@ -7,17 +7,9 @@ jobs:
     executor: machexec
     steps:
       - checkout
-      - gcp-gcr/build-image:
-          image: orb-test
-          no_output_timeout: 20m
+      - gcp-gcr/build-and-push-image:
+          image: test-img
           registry-url: ap.gcr.io
-      - gcp-gcr/push-image:
-          digest-path: /tmp/digest.txt
-          image: orb-test
-          registry-url: ap.gcr.io
-      - run:
-          command: |
-            echo "Digest is: $(</tmp/digest.txt)"
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.15.0
 version: 2.1
