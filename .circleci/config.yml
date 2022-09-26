@@ -14,9 +14,13 @@ jobs:
     steps:
       - maven/test:          
           command: package
+      - save_cache:
+          key: my-cache
   build-and-push:
     executor: machexec
     steps:
+      - restore_cache:
+          keys: my-cache
       - gcp-gcr/build-and-push-image:         
           image: test-image
           registry-url: ap.gcr.io
