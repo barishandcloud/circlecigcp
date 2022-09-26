@@ -7,6 +7,7 @@ jobs:
     executor: machexec
     steps:
       - checkout
+      - gcp-gcr/gcr-auth:
       - gcp-gcr/build-image:
           image: testimg
           tag: latest
@@ -20,4 +21,5 @@ version: 2.1
 workflows:
   commit:
     jobs:
-      - build-and-push
+      - build-and-push:
+          context: GCP-Vars
