@@ -15,12 +15,12 @@ jobs:
       - maven/test:          
           command: package
       - save_cache:
-          key: my-cache
+          key: jar-cache
   build-and-push:
     executor: machexec
     steps:
       - restore_cache:
-          keys: my-cache
+          keys: jar-cache
       - gcp-gcr/build-and-push-image:         
           image: test-image
           registry-url: ap.gcr.io
@@ -28,7 +28,7 @@ jobs:
 workflows:
   testcci:
     jobs:
-      - maven_test:
+      - maven_test
       - build-and-push:
           context: GCP-Vars
           requires:
