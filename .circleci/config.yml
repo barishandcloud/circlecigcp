@@ -20,7 +20,7 @@ workflows:
           context: 
             - GCP-Vars
 
-jobs:	
+jobs:
   build-and-push:
     executor: machexec
     steps:
