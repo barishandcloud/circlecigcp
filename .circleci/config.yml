@@ -1,23 +1,39 @@
+version: 2.1
+orbs:
+  gcp-gcr: circleci/gcp-gcr@0.15.0
+
 executors:
   machexec:
     machine:
       image: ubuntu-2204:2022.07.1
+
+workflows:
+  commit:
+    jobs:
+      - mvnpackage
+      - build-and-push:
+          context: 
+            - GCP-Vars
+
 jobs:
+  mvnpackage:
+    executor: machexec
+    steps:
+      - checkout
+      - maven/test:
+          command: package
+      - run: ls -al		
   build-and-push:
     executor: machexec
     steps:
       - checkout
       - gcp-gcr/gcr-auth
-      - gcp-gcr/build-and-push-image:
+      - gcp-gcr/build-image:
+          image: testimg
+          tag: latest
+      - gcp-gcr/push-image:
           image: testimg
           tag: latest
           registry-url: ap.gcr.io
-orbs:
-  gcp-gcr: circleci/gcp-gcr@0.15.0
-version: 2.1
-workflows:
-  commit:
-    jobs:
-      - build-and-push:
-          context: 
-            - GCP-Vars
+
+
