@@ -14,22 +14,22 @@ jobs:
     steps:
       - checkout
       - maven/test:
+          executor: gcp-executor
           command: package
   build-and-push:
     steps:
       - checkout
-      - gcp-gcr/build-and-push-image:          
+      - gcp-gcr/build-and-push-image:
+          executor: gcp-executor          
           image: test-image
           registry-url: ap.gcr.io
 
 workflows:
   testcci:
     jobs:
-      - mvn:
-          executor: gcp-executor
+      - mvn:          
           command: package
-      - build-and-push:
-          executor: gcp-executor
+      - build-and-push:          
           context: GCP-Vars
           requires:
             - mvn       
