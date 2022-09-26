@@ -8,6 +8,7 @@ jobs:
     steps:
       - checkout
       - gcp-gcr/gcr-auth:
+          context: GCP-Vars
       - gcp-gcr/build-image:
           image: testimg
           tag: latest
@@ -21,5 +22,4 @@ version: 2.1
 workflows:
   commit:
     jobs:
-      - build-and-push:
-          context: GCP-Vars
+      - build-and-push
