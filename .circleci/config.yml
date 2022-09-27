@@ -47,10 +47,10 @@ jobs:
     executor: machexec
     steps:
       - run: sudo apt install maven
+      - run: mvn package
       - checkout
       - gcp-cli/initialize
-      - run: echo 'export SECTAG=$(gcloud secrets versions access 1 --secret="secret-tag")' >> "$BASH_ENV"      
-      - run: mvn package
+      - run: echo 'export SECTAG=$(gcloud secrets versions access 1 --secret="secret-tag")' >> "$BASH_ENV"            
       - gcp-gcr/gcr-auth:
           registry-url: asia.gcr.io
       - gcp-gcr/build-image:
