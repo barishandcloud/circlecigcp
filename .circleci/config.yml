@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.15.0
+  gcp-cli: circleci/gcp-cli@2.4.0
 
 executors:
   machexec:
@@ -11,7 +12,7 @@ executors:
 workflows:
   testmvncgcp:
     jobs:
-      - create-gke-cluster      :
+      - create-gke-cluster:
           context:
             - GCP-Vars
 
