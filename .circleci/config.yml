@@ -11,24 +11,21 @@ executors:
 workflows:
   testmvncgcp:
     jobs:
-      - build-and-push:
-          context: 
+      - create-gke-cluster      :
+          context:
             - GCP-Vars
 
 jobs:
-  build-and-push:
+  create-gke-cluster:
     executor: machexec
     steps:
       - checkout
-      - run: sudo apt install maven
-      - run: mvn package
-      - gcp-gcr/gcr-auth:
-          registry-url: asia.gcr.io
-      - gcp-gcr/build-image:
-          image: testimg
-          registry-url: asia.gcr.io
-      - gcp-gcr/push-image:
-          image: testimg
-          registry-url: asia.gcr.io
-
+      - gcp-cli/install
+      - gcp-cli/initialize
+      - run: gcloud container clusters create-auto poc-cluster
+      - run: curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      - run: sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      - run: kubectl version --client
+      - run: gcloud container clusters get-credentials poc-cluster
+      - run: kubectl get no
 
