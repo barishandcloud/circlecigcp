@@ -18,6 +18,8 @@ workflows:
       - build-and-push:
           context: 
             - GCP-Vars
+          requires:
+            - extract-secret     
 
 jobs:
   extract-secret:
