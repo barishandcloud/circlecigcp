@@ -4,7 +4,11 @@ orbs:
   gcp-cli: circleci/gcp-cli@2.4.0
 
 executors:
-  machexec:
+  machexec1:
+    resource_class: medium
+    machine:
+      image: ubuntu-2004:2022.07.1
+  machexec2:
     resource_class: medium
     machine:
       image: ubuntu-2004:2022.07.1
@@ -28,7 +32,7 @@ parameters:
 
 jobs:
   create-secret-tag:
-    executor: machexec
+    executor: machexec1
     steps:
       - checkout
       - gcp-cli/initialize
@@ -44,7 +48,7 @@ jobs:
             sh -c ./savesecrets.sh
             gcloud secrets create secret-tag --data-file=savesecrets.txt      
   build-and-push:
-    executor: machexec
+    executor: machexec2
     steps:
       - checkout
       - run: sudo apt install maven
