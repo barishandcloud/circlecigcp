@@ -46,9 +46,9 @@ jobs:
   build-and-push:
     executor: machexec
     steps:
-      - run: sudo apt install maven
-      - run: mvn package
       - checkout
+      - run: sudo apt install maven
+      - run: mvn package      
       - gcp-cli/initialize
       - run: echo 'export SECTAG=$(gcloud secrets versions access 1 --secret="secret-tag")' >> "$BASH_ENV"            
       - gcp-gcr/gcr-auth:
