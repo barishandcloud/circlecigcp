@@ -56,8 +56,8 @@ jobs:
       - gcp-gcr/build-image:
           image: petstore
           registry-url: asia.gcr.io
-          tag: $sectag
+          tag: testthistagnow
       - gcp-gcr/push-image:
           image: petstore
           registry-url: asia.gcr.io
-          tag: $sectag
+          tag: testthistagnow
