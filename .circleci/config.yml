@@ -22,7 +22,7 @@ jobs:
     steps:
       - checkout
       - gcp-cli/initialize
-      - run: gcloud components install kubectl --yes
+      - run: gcloud components install kubectl --quiet
       - run: gcloud container clusters get-credentials poc-cluster
       - run: kubectl get no
       - run: kubectl create deployment petstore --image=asia.gcr.io/$GOOGLE_PROJECT_ID/petstore:latest
