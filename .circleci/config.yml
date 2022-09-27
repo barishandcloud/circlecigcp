@@ -4,60 +4,30 @@ orbs:
   gcp-cli: circleci/gcp-cli@2.4.0
 
 executors:
-  machexec1:
-    resource_class: large
-    machine:
-      image: ubuntu-2004:2022.07.1
+  dockexec:
+    resource_class: medium
+    docker:
+      image: cimg/gcp:2022.09.1
 
 workflows:
   testmvncgcp:
     jobs:
-      - create-secret-tag:
-          context:
-            - GCP-Vars
       - build-and-push:
           context: 
-            - GCP-Vars
-          requires:
-            - create-secret-tag        
+            - GCP-Vars   
 
-parameters:
-  secretval:
-    type: string
-    default: "testhistag"
-
-jobs:
-  create-secret-tag:
-    executor: machexec1
-    steps:
-      - checkout
-      - gcp-cli/initialize
-      - run:
-          name: Creating a secret
-          command: |
-            secretval=<< pipeline.parameters.secretval >>
-            cat \<< EOF > savesecrets.sh
-            #!/bin/bash
-            echo $secretval > savesecrets.txt
-            EOF
-            chmod +x savesecrets.sh
-            sh -c ./savesecrets.sh
-            gcloud secrets create secret-tag --data-file=savesecrets.txt      
+jobs:   
   build-and-push:
-    executor: machexec1
+    executor: dockexec
     steps:
       - checkout
       - run: sudo apt install maven
-      - run: mvn package      
-      - gcp-cli/initialize
-      - run: echo 'export SECTAG=$(gcloud secrets versions access 1 --secret="secret-tag")' >> "$BASH_ENV"            
+      - run: mvn package
       - gcp-gcr/gcr-auth:
           registry-url: asia.gcr.io
       - gcp-gcr/build-image:
           image: petstore
           registry-url: asia.gcr.io
-          tag: ${SECTAG}
       - gcp-gcr/push-image:
           image: petstore
           registry-url: asia.gcr.io
-          tag: ${SECTAG}
