@@ -19,11 +19,6 @@ workflows:
           context: 
             - GCP-Vars
 
-parameters:
-  secretval:
-    type: env_var_name
-    default: "latest"
-
 jobs:
   extract-secret:
     executor: machexec
