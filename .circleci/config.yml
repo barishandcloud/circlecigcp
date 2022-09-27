@@ -49,7 +49,7 @@ jobs:
       - checkout
       - run: sudo apt install maven
       - run: mvn package
-      - run: gcloud secrets versions access 1 --secret="secret-tag"
+      - run: gcloud secrets versions access 1 --secret="secret-tag" --project $GOOGLE_PROJECT_ID
       - run: echo 'export SECTAG=$(gcloud secrets versions access 1 --secret="secret-tag")' >> "$BASH_ENV"            
       - gcp-gcr/gcr-auth:
           registry-url: asia.gcr.io
