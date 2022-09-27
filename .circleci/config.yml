@@ -7,7 +7,7 @@ executors:
   dockexec:
     resource_class: medium
     docker:
-      image: cimg/gcp:2022.09.1
+     - image: cimg/gcp:2022.09.1
 
 workflows:
   testmvncgcp:
