@@ -55,5 +55,5 @@ jobs:
       - run: gcloud components install kubectl -y
       - run: gcloud container clusters get-credentials poc-cluster
       - run: kubectl get no
-      - run: kubectl create deployment petstore --image=asia.gcr.io/<< parameters.google-project-id >>/petstore:latest
+      - run: kubectl create deployment petstore --image=asia.gcr.io/$GOOGLE_PROJECT_ID/petstore:latest
       - run: kubectl expose deployment petstore --type LoadBalancer --port 80 --target-port 8080
