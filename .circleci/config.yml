@@ -11,48 +11,18 @@ executors:
 
 workflows:
   testmvncgcp:
-    jobs:
-      - create-gke-cluster:
-          context:
-            - GCP-Vars
-      - build-and-push:
-          context: 
-            - GCP-Vars
-          requires:
-            - create-gke-cluster        
+    jobs:      
       - deploy-to-gke:
           context: 
             - GCP-Vars
-          requires:
-            - build-and-push
 
 jobs:
-  create-gke-cluster:
-    executor: machexec
-    steps:
-      - checkout
-      - gcp-cli/initialize
-      - run: gcloud container clusters create-auto poc-cluster
-  build-and-push:
-    executor: machexec
-    steps:
-      - checkout
-      - run: sudo apt install maven
-      - run: mvn package
-      - gcp-gcr/gcr-auth:
-          registry-url: asia.gcr.io
-      - gcp-gcr/build-image:
-          image: petstore
-          registry-url: asia.gcr.io
-      - gcp-gcr/push-image:
-          image: petstore
-          registry-url: asia.gcr.io
   deploy-to-gke:
     executor: machexec
     steps:
       - checkout
       - gcp-cli/initialize
-      - run: gcloud components install kubectl -y
+      - run: gcloud components install kubectl
       - run: gcloud container clusters get-credentials poc-cluster
       - run: kubectl get no
       - run: kubectl create deployment petstore --image=asia.gcr.io/$GOOGLE_PROJECT_ID/petstore:latest
