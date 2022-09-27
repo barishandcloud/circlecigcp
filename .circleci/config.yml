@@ -21,5 +21,4 @@ jobs:
     executor: machexec
     steps:
       - checkout
-      - gcp-cli/install
       - gcp-cli/initialize
