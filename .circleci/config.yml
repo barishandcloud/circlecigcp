@@ -11,10 +11,20 @@ executors:
 
 workflows:
   testmvncgcp:
-    jobs:    
+    jobs:
+      - create-gke-cluster:
+          context:
+            - GCP-Vars
+      - build-and-push:
+          context: 
+            - GCP-Vars
+          requires:
+            - create-gke-cluster        
       - deploy-to-gke:
           context: 
             - GCP-Vars
+          requires:
+            - build-and-push
 
 parameters:
   secretval:
@@ -22,6 +32,28 @@ parameters:
     default: "testthistag"
 
 jobs:    
+  create-gke-cluster:
+    executor: machexec
+    steps:
+      - checkout
+      - gcp-cli/initialize
+      - run: gcloud container clusters create-auto poc-cluster
+  build-and-push:
+    executor: machexec
+    steps:
+      - checkout
+      - run: sudo apt install maven
+      - run: mvn package
+      - gcp-gcr/gcr-auth:
+          registry-url: asia.gcr.io
+      - gcp-gcr/build-image:
+          image: petstore
+          registry-url: asia.gcr.io
+          tag: << pipeline.parameters.secretval >>
+      - gcp-gcr/push-image:
+          image: petstore
+          registry-url: asia.gcr.io
+          tag: << pipeline.parameters.secretval >>
   deploy-to-gke:
     executor: machexec
     steps:
