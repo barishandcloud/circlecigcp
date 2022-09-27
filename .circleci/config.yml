@@ -11,19 +11,53 @@ executors:
 
 workflows:
   testmvncgcp:
-    jobs:      
-      - deploy-to-gke:
+    jobs:
+      - create-secret-tag:
+          context:
+            - GCP-Vars
+      - build-and-push:
           context: 
             - GCP-Vars
+          requires:
+            - create-secret-tag        
+
+parameters:
+  secretval:
+    type: string
+    default: "testhistag"
 
 jobs:
-  deploy-to-gke:
+  create-secret-tag:
     executor: machexec
     steps:
       - checkout
       - gcp-cli/initialize
-      - run: gcloud components install kubectl --quiet
-      - run: gcloud container clusters get-credentials poc-cluster
-      - run: kubectl get no
-      - run: kubectl create deployment petstore --image=asia.gcr.io/$GOOGLE_PROJECT_ID/petstore:latest
-      - run: kubectl expose deployment petstore --type LoadBalancer --port 80 --target-port 8080
+      - run:
+          name: Creating a secret
+          command: |
+            secretval=<< pipeline.parameters.secretval >>
+            cat \<< EOF > savesecrets.sh
+            #!/bin/bash
+            echo $secretval > savesecrets.txt
+            EOF
+            chmod +x savesecrets.sh
+            sh -c ./savesecrets.sh
+            gcloud secrets create secret-tag --data-file=savesecrets.txt      
+  build-and-push:
+    executor: machexec
+    steps:
+      - checkout
+      - gcp-cli/initialize
+      - run: sectag=$(gcloud secrets versions access 1 --secret="secret-tag")
+      - run: sudo apt install maven
+      - run: mvn package
+      - gcp-gcr/gcr-auth:
+          registry-url: asia.gcr.io
+      - gcp-gcr/build-image:
+          image: petstore
+          registry-url: asia.gcr.io
+          tag: $sectag
+      - gcp-gcr/push-image:
+          image: petstore
+          registry-url: asia.gcr.io
+          tag: $sectag
