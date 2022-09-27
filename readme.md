@@ -40,3 +40,18 @@ Dashboard
 Job
 ![CircleCI-Job](png/CircleCI-Job.png)
 
+
+GCP-Image
+![GCP-Image](png/gcp-image-repo.png)
+GKE-Cluster
+![GCP-Cluster](png/gcp-gke-cluster.png)
+GKE-Deployment
+![GCP-Deployment](png/gcp-gke-deployment.png)
+GKE-Service
+![GCP-Service](png/gcp-gke-service.png)
+
+PetShop app at the public IP fronted by loadbalancer
+![PetShop](png/petshop.png)
+
+This Petshop is variant of https://github.com/spring-projects/spring-petclinic
+There are no other changes to the orginal with the exception of introduction of cicleci config yaml and a different readme.
