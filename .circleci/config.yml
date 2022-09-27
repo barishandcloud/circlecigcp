@@ -12,22 +12,31 @@ executors:
 workflows:
   testmvncgcp:
     jobs:
+      - extract-secret:
+          context: 
+            - GCP-Vars
       - build-and-push:
           context: 
             - GCP-Vars
 
+parameters:
+  secretval:
+    type: env_var_name
+    default: "latest"
+
 jobs:
+  extract-secret:
+    executor: machexec
+    steps:
+      - checkout
+      - gcp-cli/initialize
+      - run: gcloud secrets versions access 1 --secret="secret-tag" >> sectext
+      - run: echo 'export SECTAG=$(gcloud secrets versions access 1 --secret="secret-tag")' >> "$BASH_ENV"
+      - run: pwd; ls -lrt
   build-and-push:
     executor: machexec
     steps:
       - checkout
       - run: sudo apt install maven
-      - run: mvn package       
-      - gcp-gcr/gcr-auth:
-          registry-url: asia.gcr.io
-      - gcp-gcr/build-image:
-          image: petstore
-          registry-url: asia.gcr.io
-      - gcp-gcr/push-image:
-          image: petstore
-          registry-url: asia.gcr.io
+      - run: mvn package
+      - run: pwd; ls -lrt
