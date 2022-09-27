@@ -21,7 +21,7 @@ jobs:
     executor: dockexec
     steps:
       - checkout
-      - run: sudo apt install maven
+      - run: sudo apt update && sudo apt install maven
       - run: mvn package
       - gcp-gcr/gcr-auth:
           registry-url: asia.gcr.io
